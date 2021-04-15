@@ -2,18 +2,22 @@
 //a) imaginary
 //b) real & unreal
 //c) equal and real
-#include <stdio.h> 
-#include <math.h> 
+#include <stdio.h>
+#include <math.h>
 int main () {
-    int a,b,c,d;
+    int a,b,c;
+    float d, xA,xB;
     scanf("%d %d %d",&a,&b,&c);
-    d=sqrt(b*b-4*a*c);
-    printf("%d is ",d);
+    d=pow(b,2)-4*a*c;
+    printf("%.2f is ",d);
     if (d==0) {
         printf("equal and unreal number");
     } else if (d>0) {
-        printf("Real and unequal");
+        printf("Unequal and Real");
     } else {
         printf("Imaginary");
     }
+    xA = (- b + sqrt(fabs(d))) / 2 * a;
+    xB = (- b - sqrt(fabs(d))) / 2 * a;
+    printf("\nX1 = %.2f and X2 = %.2f", xA, xB);
 }

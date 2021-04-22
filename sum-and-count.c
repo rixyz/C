@@ -2,15 +2,17 @@
 #include <stdio.h>
 int main() {
     printf("Enter numbers (0 to end)\n");
-    int c=0,k=0,l=0,o=1;
+    int c=0,k=0,l=0,o=1,p=0,q=0;
     while (o!=0) {
         scanf("%d",&o);
        if (o>0) {
            k = k + o;
-       } else {
+           p++;
+       } else if (o<0) {
             l = l + o;
+            q++;
        }
-       c=c+1;
+       c++;
     }
-    printf("Count:%d | Positive sum:%d | Negative sum:%d\n",c,k,l);
+    printf("Count:%d \nPositive: \n\tsum:%d \n\tcount:%d \nNegative: \n\tsum:%d \n\tcount:%d\n",c,k,p,l,q);
 }

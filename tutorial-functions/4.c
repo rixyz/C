@@ -5,8 +5,10 @@
 float areaofcircle(float r) { return 22.0 / 7.0 * r * r; }
 int main() {
   float r;
-  printf("Enter the radius of circle : ");
-  scanf("%f", &r);
-  printf("%f", areaofcircle(r));
+  for (int i = 1; i <= 4; i++) {
+    printf("Enter the radius of circle : ");
+    scanf("%f", &r);
+    printf("Area: %f\n", areaofcircle(r));
+  }
   return 0;
 }

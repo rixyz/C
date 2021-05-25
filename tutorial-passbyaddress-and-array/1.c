@@ -8,4 +8,5 @@ int main(void) {
   printf("Enter number: ");
   scanf("%d", &a);
   printf("Addition: %d", sum(&a));
+  return 0;
 }

@@ -20,4 +20,6 @@ int main(void) {
   }
   printf("ODD\n\tCount:%d Average: %d\nEVEN\n\tCount:%d Average: %d", oddCount,
          oddSum / oddCount, evenCount, evenSum / evenCount);
+  free(array);
+  return 0;
 }

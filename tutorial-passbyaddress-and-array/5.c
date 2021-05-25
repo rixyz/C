@@ -14,4 +14,5 @@ int main(void) {
   }
   printf("Average: %f", (float)sum / n);
   free(array);
+  return 0;
 }

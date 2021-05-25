@@ -11,4 +11,5 @@ int main(void) {
   scanf("%d %d", &a, &b);
   swap(&a, &b);
   printf("A= %d\nB= %d", a, b);
+  return 0;
 }

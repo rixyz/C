@@ -10,4 +10,5 @@ int main(void) {
   scanf("%d %d", &a, &b);
   printf("Addition: %d\n", sum(&a, &b));
   printf("Substraction: %d", sub(&a, &b));
+  return 0;
 }

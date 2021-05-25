@@ -1,4 +1,3 @@
-
 // WAP to read 2 matrices from user.Add them and display result.
 // ii)Make different function to take input from userand to display
 // values.

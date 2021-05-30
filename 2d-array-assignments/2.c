@@ -20,5 +20,6 @@ int main(void) {
     }
   }
   printf("Max: %d, Min: %d", max, min);
+  free(array);
   return 0;
 }

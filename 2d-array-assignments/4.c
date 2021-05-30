@@ -11,7 +11,7 @@
 #include <time.h>
 void game();
 int main(void) {
-  int num, diff, score = 20, multiplier = 0, win = 1, guess;
+  int num, diff, score = 20, multiplier = 0, guess;
   srand(time(0));
   printf("Let's play Guess the Number. Pick a difficulty level (1, 2, or 3):");
   scanf("%d", &diff);
@@ -23,8 +23,8 @@ int main(void) {
     multiplier = 1000;
   }
   num = rand() % multiplier + 1;
-  printf("Ihave my number. What's your guess?");
-  while (win) {
+  printf("I have my number. What's your guess?");
+  while (1) {
     scanf("%d", &guess);
     if (guess > num) {
       printf("Too high, try again.");

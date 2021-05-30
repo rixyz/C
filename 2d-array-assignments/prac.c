@@ -3,11 +3,11 @@
 // set would be between 1 and 100. The third difficulty set would be between 1
 // and 1000. Prompt for the difficulty level, and then start the game. The
 // computer picks a random numberin thatrange and prompts the player to guess
-// that number. Each time the player guesses, the computer should give the player
-// a hint as to whether the number is too high or too low. The computer should
-// also keep track of the number of guesses. Once the player guesses the correct
-// number, the computer should present the number of guesses and ask if the
-// player would like to play again.
+// that number. Each time the player guesses, the computer should give the
+// player a hint as to whether the number is too high or too low. The computer
+// should also keep track of the number of guesses. Once the player guesses the
+// correct number, the computer should present the number of guesses and ask if
+// the player would like to play again.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -51,7 +51,7 @@ int main(void) {
         } else {
           printf("Better luck next time.");
         }
-        break;
+        win = 0;
       }
     }
     printf("\nPlay again?");

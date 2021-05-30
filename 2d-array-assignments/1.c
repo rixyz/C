@@ -18,4 +18,5 @@ int main(void) {
   }
   normal = sqrt(n);
   printf("%d\n%f", trace, normal);
+  return 0;
 }

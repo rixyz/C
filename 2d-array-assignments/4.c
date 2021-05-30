@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-void game();
 int main(void) {
   int num, diff, score = 20, multiplier = 0, guess;
   srand(time(0));

@@ -5,7 +5,7 @@
 #include <string.h>
 int main(void) {
   char string[32], pali[32];
-  int n = 0, begin, middle, end;
+  int n = 0;
   scanf("%[^\n]s", &string);
   // gets(string);
   while (string[n] != '\0') {

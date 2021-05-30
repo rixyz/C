@@ -6,6 +6,7 @@
 int main(void) {
   char string[32], pali[32];
   int n = 0;
+  printf("Enter a string");
   scanf("%[^\n]s", &string);
   // gets(string);
   while (string[n] != '\0') {

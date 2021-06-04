@@ -25,7 +25,7 @@ void game() {
 
   int num, diff, score = 20, multiplier = 0, guess, count = 0;
   srand(time(0));
-  printf("Let's play Guess the Number. Pick a difficulty level (1, 2, or 3):");
+  printf("Let's play Guess the Number. Pick a difficulty level (1, 2, or 3): ");
   scanf("%d", &diff);
   if (diff == 1) {
     multiplier = 10;
@@ -35,21 +35,21 @@ void game() {
     multiplier = 1000;
   }
   num = rand() % multiplier + 1;
-  printf("%d", num);
-  printf("Ihave my number. What's your guess?");
+//  printf("%d", num);
+  printf("I have my number. What's your guess? ");
   while (1) {
     scanf("%d", &guess);
     count++;
     if (guess > num) {
-      printf("Too high, try again.");
+      printf("Too high, try again. ");
       score--;
     } else if (guess < num) {
-      printf("Too low, try again.");
+      printf("Too low, try again. ");
       score--;
     } else {
       printf("You got it in %d guesses!\n", count);
       if (count == 1) {
-        printf("You’re a mind reader!");
+        printf("You\’re a mind reader!");
       } else if (count < 5) {
         printf("Most impressive.");
       } else if (count < 7) {

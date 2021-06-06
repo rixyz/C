@@ -20,4 +20,5 @@ int main(void) {
   scanf("%d/%d/%d", &person.dob.date, &person.dob.month, &person.dob.year);
   printf("Name: %s\nSalary: %d\nDOB:%d/%d/%d\n", person.name, person.salary,
          person.dob.date, person.dob.month, person.dob.year);
+  return 0;
 }

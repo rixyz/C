@@ -24,4 +24,5 @@ int main(void) {
     avg += student.marks[i];
   }
   printf("Average: %d", avg / 5);
+  return 0;
 }

@@ -13,8 +13,6 @@ int main(void) {
     scanf("%s", mobile[i].brand_name);
     scanf("%s", mobile[i].modelnumber);
     scanf("%d", &mobile[i].price);
-  }
-  for (int i = 0; i < 10; i++) {
     if (mobile[i].price < 10000) {
       printf("%s %s %d\n", mobile[i].brand_name, mobile[i].modelnumber,
              mobile[i].price);

@@ -11,6 +11,6 @@ int main(void) {
   gets(student.name);
   gets(student.location);
   scanf("%d", &student.phone);
-  printf("Name:%s\n Location:%s\n Phone:%d", student.name, student.location, student.phone);
+  printf("Name:%s\n Location:%s\n Phone:%d\n", student.name, student.location, student.phone);
   return 0;
 }

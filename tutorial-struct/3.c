@@ -17,12 +17,9 @@ int main(void) {
   printf("Enter marks of 5 subject\n");
   for (int i = 0; i < 5; i++) {
     scanf("%d", &student.marks[i]);
-  }
-  printf("Name: %s\nAge: %d\nHeight: %d\n", student.name, student.age,
-         student.age);
-  for (int i = 0; i < 5; i++) {
     avg += student.marks[i];
   }
-  printf("Average: %d", avg / 5);
+  printf("Name: %s\nAge: %d\nHeight: %d\nAverage: %d\n", student.name, student.age,
+         student.age, avg / 5);
   return 0;
 }

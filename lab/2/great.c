@@ -1,11 +1,8 @@
 #include <stdio.h>
 int large(int a, int b, int c) {
-  if (a >= b && a >= c)
-    return a;
-  else if (b >= c)
-    return b;
-  else
-    return c;
+  if (a >= b && a >= c) return a;
+  else if (b >= c) return b;
+  else return c;
 }
 
 int main() {

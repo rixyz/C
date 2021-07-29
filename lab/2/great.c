@@ -1,10 +1,8 @@
 #include <stdio.h>
-
-// function to find largest among three number
 int large(int a, int b, int c) {
   if (a >= b && a >= c)
     return a;
-  else if (b >= a && b >= c)
+  else if (b >= c)
     return b;
   else
     return c;

@@ -52,13 +52,13 @@ int main() {
 
   init_pair(1, COLOR_BLUE, COLOR_BLACK);
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   getmaxyx(stdscr, row, col); /* get the number of rows and columns */
   attron(COLOR_PAIR(1));
   mvprintw((row / 2) - 10, (col - strlen(mesg)) / 2, "%s", mesg);
   attron(COLOR_PAIR(2));
   mvprintw((row / 2) - 2, (col - strlen(mesg)) / 2, "%s", "Password: ");
   attroff(COLOR_PAIR(2));
-  box(stdscr, 0, 0);
   /*mvprintw(row - 2, 0, "This screen has %d rows and %d columns\n", row, col);
   printw("Try resizing your window(if possible) and then run this program "
          "again");
@@ -94,8 +94,7 @@ int main() {
 }
 
 void menu() {
-  clear();
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   char *choices[] = {"New Account",  "Edit account",  "Perform Transaction",
                      "View details", "Erase account", "List all accounts",
                      "Exit"};
@@ -107,7 +106,6 @@ void menu() {
   int ch = 1, i;
   move(5, 5);
   n_choices = ARRAY_SIZE(choices);
-  my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
   for (i = 0; i < n_choices; i++)
     my_items[i] = new_item(choices[i], " ");
   my_items[n_choices] = (ITEM *)NULL;
@@ -130,9 +128,11 @@ void menu() {
       break;
     case 10: /* Enter */
              //    item_name(current_item(my_menu)), ch);
-      unpost_menu(my_menu);
-      for (i = 0; i < n_choices; ++i)
-        free_item(my_items[i]);
+      free_item(my_items[0]);
+      free_item(my_items[1]);
+      free_item(my_items[3]);
+      free_item(my_items[4]);
+      free_item(my_items[7]);
       free_menu(my_menu);
       switch (ch) {
       case 1:
@@ -169,6 +169,9 @@ void menu() {
     free_item(my_items[i]);
     printw("c: %d\n", i);
   }*/
+
+  getch();
+  endwin();
 }
 
 void new_acc() {
@@ -180,7 +183,7 @@ void new_acc() {
 
   ptr = fopen("record.dat", "a+");
 account_no:
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   printw("ADD RECORD ");
   echo();
   mvprintw(2, 2, "Enter today's date(mm/dd/yyyy):");
@@ -228,11 +231,10 @@ account_no:
 
   fclose(ptr);
   clear();
-  mvprintw(10, 3, "\nAccount created successfully!");
-  refresh();
+  mvprintw(10, 10, "\nAccount created successfully!");
 
 add_invalid:
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   mvprintw(LINES - 3, 2, "Enter y to main menu and n to exit:");
   exitcode = getch();
   if (exitcode == 'Y' || exitcode == 'y') {
@@ -258,7 +260,7 @@ void view_list() {
   clear();
 
   init_pair(1, COLOR_RED, COLOR_BLACK);
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   attron(COLOR_PAIR(1));
   attron(A_UNDERLINE);
   mvprintw(2, 4, "ACC. NO.\t\tNAME\t\t\tADDRESS\t\t\tPHONE");
@@ -283,7 +285,7 @@ void view_list() {
   }
 
 view_list_invalid:
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   mvprintw(LINES - 3, 2, "Enter y to main menu and n to exit:");
   exitcode = getch();
   if (exitcode == 'Y' || exitcode == 'y') {
@@ -307,7 +309,7 @@ void erase_acc() {
   int test = 0;
   old = fopen("record.dat", "r");
   newrec = fopen("new.dat", "w");
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   mvprintw(2, 2, "Enter the account no. of the customer you want to delete:");
   scanw("%d", &rem.acc_no);
   while (fscanf(old, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d", &add.acc_no,
@@ -333,7 +335,7 @@ void erase_acc() {
   if (test == 0) {
     clear();
     refresh();
-    box(stdscr, 0, 0);
+    wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
     mvprintw(3, 2, "No record found");
   erase_acc_invalid:
     mvprintw(LINES - 3, 2, "Enter r to retry,y to main menu and n to exit:");
@@ -352,7 +354,7 @@ void erase_acc() {
       goto erase_acc_invalid;
     }
   } else {
-    box(stdscr, 0, 0);
+    wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
     mvprintw(LINES - 3, 2, "Enter y to main menu and n to exit:");
     exitcode = getch();
     if (exitcode == 'Y' || exitcode == 'y') {
@@ -377,7 +379,7 @@ void check_det() {
   float time;
   float intrst;
   ptr = fopen("record.dat", "r");
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   mvprintw(2, 2, "Enter the account number:");
   scanw("%d", &check.acc_no);
 
@@ -436,7 +438,7 @@ void check_det() {
   if (test != 1) {
     clear();
     refresh();
-    box(stdscr, 0, 0);
+    wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
     mvprintw(3, 2, "No record found");
   check_det_invalid:
     mvprintw(LINES - 3, 2, "Enter r to retry,y to main menu and n to exit:");
@@ -455,7 +457,7 @@ void check_det() {
       goto check_det_invalid;
     }
   } else {
-    box(stdscr, 0, 0);
+    wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
     mvprintw(LINES - 3, 2, "Enter y to main menu and n to exit:");
     exitcode = getch();
     if (exitcode == 'Y' || exitcode == 'y') {
@@ -473,18 +475,15 @@ void check_det() {
 }
 
 void transact() {
-
   echo();
   clear();
-  refresh();
-  FILE *old, *newrec;
   int choice, test = 0;
+  FILE *old, *newrec;
   old = fopen("record.dat", "r");
   newrec = fopen("new.dat", "w");
-  box(stdscr, 0, 0);
+  wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
   mvprintw(2, 2, "Enter the account no. of the customer:");
   scanw("%d", &transaction.acc_no);
-  noecho();
   while (fscanf(old, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d", &add.acc_no,
                 add.name, &add.dob.month, &add.dob.day, &add.dob.year, &add.age,
                 add.address, add.citizenship, &add.phone, add.acc_type,
@@ -503,83 +502,127 @@ void transact() {
       }
       clear();
       refresh();
-      char *choices[] = {"Deposit", "Withdraw", "Exit"};
-
-      ITEM **tr_my_items;
-      MENU *tr_my_menu;
-      ITEM *tr_cur_item;
-      int n_choices, c;
+      char *trchoices[] = {"Deposit", "Withdraw", "Exit"};
+      ITEM **trmy_items;
+      MENU *trmy_menu;
+      ITEM *trcur_item;
+      int trn_choices, c;
       keypad(stdscr, TRUE);
       int ch = 1, i;
-      n_choices = ARRAY_SIZE(choices);
-      tr_my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
-      for (i = 0; i < n_choices; i++)
-        tr_my_items[i] = new_item(choices[i], " ");
-      tr_my_items[n_choices] = (ITEM *)NULL;
-
-      tr_my_menu = new_menu((ITEM **)tr_my_items);
-      mvprintw(LINES - 3, 2, "UP/DOWN arrow key to navigate");
-      mvprintw(LINES - 2, 2, "Enter to select menu.");
-      post_menu(tr_my_menu);
-      refresh();
-      while ((c = getch())) {
-        switch (c) {
-        case KEY_DOWN:
-          menu_driver(tr_my_menu, REQ_DOWN_ITEM);
-          ch++;
-          mvprintw(LINES - 2, 2, "A");
-          break;
-        case KEY_UP:
-          menu_driver(tr_my_menu, REQ_UP_ITEM);
-          ch--;
-          mvprintw(LINES - 2, 2, "b");
-          break;
-
-        case 10: /* Enter */
-                 //    item_name(current_item(my_menu)), ch);
-          unpost_menu(tr_my_menu);
-          for (i = 0; i < n_choices; ++i)
-            free_item(tr_my_items[i]);
-          free_menu(tr_my_menu);
-          switch (ch) {
-          case 1:
-
-            mvprintw(LINES - 2, 2, "c");
-            mvprintw(3, 2, "Enter the amount you want to deposit:$ ");
-            scanw("%f", &transaction.amt);
-            add.amt += transaction.amt;
-            fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
-                    add.acc_no, add.name, add.dob.month, add.dob.day,
-                    add.dob.year, add.age, add.address, add.citizenship,
-                    add.phone, add.acc_type, add.amt, add.deposit.month,
-                    add.deposit.day, add.deposit.year);
-            mvprintw(5, 2, "Deposited successfully!");
-
-            break;
-          case 2:
-            mvprintw(LINES - 2, 2, "d");
-            mvprintw(3, 2, "Enter the amount you want to withdraw:$ ");
-            scanw("%f", &transaction.amt);
-            add.amt -= transaction.amt;
-            fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
-                    add.acc_no, add.name, add.dob.month, add.dob.day,
-                    add.dob.year, add.age, add.address, add.citizenship,
-                    add.phone, add.acc_type, add.amt, add.deposit.month,
-                    add.deposit.day, add.deposit.year);
-            mvprintw(5, 2, "Withdrawn successfully!");
-            break;
-          case 3:
-            transact();
-            break;
-          }
-          break;
-        }
-        if (ch < 1) {
-          ch = 1;
-        } else if (ch > 3) {
-          ch = 3;
-        }
+      trn_choices = ARRAY_SIZE(trchoices);
+      printw("%d", trn_choices);
+      getch();
+      for (int j = 0; j < trn_choices; j++) {
+        printf("%d ", j);
+        trmy_items[j] = new_item(trchoices[j], " ");
       }
+      getch();
+      printw("7");
+      trmy_items[trn_choices] = (ITEM *)NULL;
+
+      getch();
+      printw("8");
+      trmy_menu = new_menu((ITEM **)trmy_items);
+      mvprintw(LINES - 3, 2, "UP/DOWN arrow key to navigate\n");
+      mvprintw(LINES - 2, 2, "Enter to select menu.");
+      post_menu(trmy_menu);
+      refresh();
+      /* mvprintw(3, 2,
+                "Do you want to\n 1.Deposit\n 2.Withdraw?\n\n Enter your "
+                "choice(1 for deposit and 2 for withdraw):");
+       scanw("%d", &choice);
+*/
+      /*      char *choices[] = {"Deposit", "Withdraw", "Exit"};
+            ITEM **my_items;
+            MENU *my_menu;
+            ITEM *cur_item;
+            int n_choices, c;
+            keypad(stdscr, TRUE);
+            int ch = 1, i;
+            n_choices = ARRAY_SIZE(choices);
+            for (i = 0; i < n_choices; i++)
+              my_items[i] = new_item(choices[i], " ");
+            my_items[n_choices] = (ITEM *)NULL;
+
+            my_menu = new_menu((ITEM **)my_items);
+            mvprintw(LINES - 3, 2, "UP/DOWN arrow key to navigate\n");
+            mvprintw(LINES - 2, 2, "Enter to select menu.");
+            post_menu(my_menu);
+            refresh();
+
+            while ((c = getch())) {
+              switch (c) {
+              case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                ch++;
+                break;
+              case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                ch--;
+                break;
+              case 10: /* Enter */
+      //    item_name(current_item(my_menu)), ch);
+      /*          free_item(my_items[0]);
+                free_item(my_items[1]);
+                free_item(my_items[3]);
+                free_item(my_items[4]);
+                free_item(my_items[7]);
+                free_menu(my_menu);
+                switch (ch) {
+                case 1:
+                  printw("Enter the amount you want to deposit:$ ");
+                  scanw("%f", &transaction.amt);
+                  add.amt += transaction.amt;
+                  fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f
+         %d/%d/%d\n", add.acc_no, add.name, add.dob.month, add.dob.day,
+                          add.dob.year, add.age, add.address, add.citizenship,
+                          add.phone, add.acc_type, add.amt, add.deposit.month,
+                          add.deposit.day, add.deposit.year);
+                  mvprintw(5, 2, "Deposited successfully!");
+                  break;
+                case 2:
+
+                  printw("Enter the amount you want to withdraw:$ ");
+                  scanw("%f", &transaction.amt);
+                  add.amt -= transaction.amt;
+                  fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f
+         %d/%d/%d\n", add.acc_no, add.name, add.dob.month, add.dob.day,
+                          add.dob.year, add.age, add.address, add.citizenship,
+                          add.phone, add.acc_type, add.amt, add.deposit.month,
+                          add.deposit.day, add.deposit.year);
+                  mvprintw(5, 2, "Withdrawn successfully!");
+                  break;
+                case 3:
+                  transact();
+                }
+                break;
+              }
+              if (ch < 1) {
+                ch = 1;
+              } else if (ch > 3) {
+                ch = 3;
+              }
+            }
+
+            if (choice == 1) {
+              printw("Enter the amount you want to deposit:$ ");
+              scanw("%f", &transaction.amt);
+              add.amt += transaction.amt;
+              fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
+                      add.acc_no, add.name, add.dob.month, add.dob.day,
+         add.dob.year, add.age, add.address, add.citizenship, add.phone,
+         add.acc_type, add.amt, add.deposit.month, add.deposit.day,
+         add.deposit.year); mvprintw(5, 2, "Deposited successfully!"); } else {
+              printw("Enter the amount you want to withdraw:$ ");
+              scanw("%f", &transaction.amt);
+              add.amt -= transaction.amt;
+              fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
+                      add.acc_no, add.name, add.dob.month, add.dob.day,
+         add.dob.year, add.age, add.address, add.citizenship, add.phone,
+         add.acc_type, add.amt, add.deposit.month, add.deposit.day,
+         add.deposit.year); mvprintw(5, 2, "Withdrawn successfully!");
+            }
+            */
 
     } else {
       fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
@@ -595,7 +638,7 @@ void transact() {
   if (test != 1) {
     clear();
     refresh();
-    box(stdscr, 0, 0);
+    wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
     mvprintw(3, 2, "No record found");
   transact_invalid:
     mvprintw(LINES - 3, 2, "Enter r to retry,y to main menu and n to exit:");
@@ -614,7 +657,7 @@ void transact() {
       goto transact_invalid;
     }
   } else {
-    box(stdscr, 0, 0);
+    wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');
     mvprintw(LINES - 3, 2, "Enter y to main menu and n to exit:");
     exitcode = getch();
     if (exitcode == 'Y' || exitcode == 'y') {

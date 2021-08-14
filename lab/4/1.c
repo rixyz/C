@@ -14,9 +14,9 @@ int main() {
         }
       }
     }
+    printf("Trace: %d", sum);
   } else {
     printf("Trace can't be calculated. not a square matrix");
   }
-  printf("Trace: %d", sum);
   return 0;
 }

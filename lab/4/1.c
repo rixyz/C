@@ -9,14 +9,12 @@ int main() {
       for (j = 0; j < m; j++) {
         printf("Enter a[%d][%d]", i, j);
         scanf("%d", &a[i][j]);
-        if (i == j) {
+        if (i == j)
           sum += a[i][j];
-        }
       }
     }
     printf("Trace: %d", sum);
-  } else {
-    printf("Trace can't be calculated. not a square matrix");
-  }
+  } else 
+      printf("Trace can't be calculated. not a square matrix");
   return 0;
 }

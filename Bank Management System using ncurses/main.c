@@ -509,6 +509,7 @@ void transact() {
         menu();
       }
       clear();
+      box(stdscr, 0, 0);
       refresh();
       char *choices[] = {"Deposit", "Withdraw", "Exit"};
 
@@ -527,6 +528,7 @@ void transact() {
       tr_my_menu = new_menu((ITEM **)tr_my_items);
       mvprintw(LINES - 3, 2, "UP/DOWN arrow key to navigate");
       mvprintw(LINES - 2, 2, "Enter to select menu.");
+      box(stdscr, 0, 0);
       post_menu(tr_my_menu);
       refresh();
       while ((c = getch())) {
@@ -534,12 +536,10 @@ void transact() {
         case KEY_DOWN:
           menu_driver(tr_my_menu, REQ_DOWN_ITEM);
           ch++;
-          mvprintw(LINES - 2, 2, "A");
           break;
         case KEY_UP:
           menu_driver(tr_my_menu, REQ_UP_ITEM);
           ch--;
-          mvprintw(LINES - 2, 2, "b");
           break;
 
         case 10: /* Enter */
@@ -549,10 +549,12 @@ void transact() {
           for (i = 0; i < n_choices; ++i)
             free_item(tr_my_items[i]);
           free_menu(tr_my_menu);
+          echo();
+          clear();
+          box(stdscr, 0, 0);
+          refresh();
           switch (ch) {
           case 1:
-
-            mvprintw(LINES - 2, 2, "c");
             mvprintw(3, 2, "Enter the amount you want to deposit:$ ");
             scanw("%f", &transaction.amt);
             add.amt += transaction.amt;
@@ -651,7 +653,9 @@ void edit() {
   int choice, test = 0;
   old = fopen("record.dat", "r");
   newrec = fopen("new.dat", "w");
-  mvprintw(2, 2, "Enter the account no. of the customer whose info you want to change:");
+  mvprintw(
+      2, 2,
+      "Enter the account no. of the customer whose info you want to change:");
   scanw("%d", &upd.acc_no);
   noecho();
 

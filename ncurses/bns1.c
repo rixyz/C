@@ -185,8 +185,13 @@ account_no:
   box(stdscr, 0, 0);
   printw("ADD RECORD ");
   echo();
-  mvprintw(2, 2, "Enter today's date(mm/dd/yyyy):");
-  scanw("%2d/%2d/%4d", &add.deposit.month, &add.deposit.day, &add.deposit.year);
+  time_t t = time(NULL);
+  struct tm tm = *localtime(&t);
+  add.deposit.month = tm.tm_mon;
+  add.deposit.day = tm.tm_mday + 1;
+  add.deposit.year = tm.tm_year + 1900;
+  mvprintw(2, 2, "Todays date: %02d/%02d/%4d", add.deposit.month,
+           add.deposit.day, add.deposit.year);
   mvprintw(4, 2, "Enter the account number:");
   scanw("%d", &check.acc_no);
   while (fscanf(ptr, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",

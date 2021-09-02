@@ -14,6 +14,7 @@ void view_list();
 void erase_acc();
 void check_det();
 void transact();
+void edit();
 
 char exitcode;
 struct date {
@@ -139,6 +140,7 @@ void menu() {
         new_acc();
         break;
       case 2:
+        edit();
         break;
       case 3:
         transact();
@@ -233,7 +235,7 @@ account_no:
 
   fclose(ptr);
   clear();
-  mvprintw(10, 5, "\nAccount created successfully!");
+  mvprintw(10, 3, "\nAccount created successfully!");
   refresh();
 
 add_invalid:
@@ -407,32 +409,32 @@ void check_det() {
         time = 1.0;
         rate = 9;
         intrst = interest(time, add.amt, rate);
-        printw("\n\nYou will get $%.2f as interest on %d/%d/%d", intrst,
-               add.deposit.month, add.deposit.day, add.deposit.year + 1);
+        mvprintw(15, 2, "You will get $%.2f as interest on %d/%d/%d", intrst,
+                 add.deposit.month, add.deposit.day, add.deposit.year + 1);
       } else if (strcmp(add.acc_type, "fixed2") == 0) {
         time = 2.0;
         rate = 11;
         intrst = interest(time, add.amt, rate);
-        printw("\n\nYou will get $.%.2f as interest on %d/%d/%d", intrst,
-               add.deposit.month, add.deposit.day, add.deposit.year + 2);
+        mvprintw(15, 2, "You will get $.%.2f as interest on %d/%d/%d", intrst,
+                 add.deposit.month, add.deposit.day, add.deposit.year + 2);
 
       } else if (strcmp(add.acc_type, "fixed3") == 0) {
         time = 3.0;
         rate = 13;
         intrst = interest(time, add.amt, rate);
-        printw("\n\nYou will get $.%.2f as interest on %d/%d/%d", intrst,
-               add.deposit.month, add.deposit.day, add.deposit.year + 3);
+        mvprintw(15, 2, "You will get $.%.2f as interest on %d/%d/%d", intrst,
+                 add.deposit.month, add.deposit.day, add.deposit.year + 3);
 
       } else if (strcmp(add.acc_type, "saving") == 0) {
         time = (1.0 / 12.0);
         rate = 8;
         intrst = interest(time, add.amt, rate);
-        printw("\n\nYou will get $.%.2f as interest on %d of every month",
-               intrst, add.deposit.day);
+        mvprintw(15, 2, "You will get $.%.2f as interest on %d of every month",
+                 intrst, add.deposit.day);
 
       } else if (strcmp(add.acc_type, "current") == 0) {
 
-        printw("\n\nYou will get no interest\a\a");
+        mvprintw(15, 2, "You will get no interest");
       }
     }
   }
@@ -481,12 +483,12 @@ void transact() {
 
   echo();
   clear();
+  box(stdscr, 0, 0);
   refresh();
   FILE *old, *newrec;
   int choice, test = 0;
   old = fopen("record.dat", "r");
   newrec = fopen("new.dat", "w");
-  box(stdscr, 0, 0);
   mvprintw(2, 2, "Enter the account no. of the customer:");
   scanw("%d", &transaction.acc_no);
   noecho();
@@ -542,6 +544,7 @@ void transact() {
 
         case 10: /* Enter */
                  //    item_name(current_item(my_menu)), ch);
+
           unpost_menu(tr_my_menu);
           for (i = 0; i < n_choices; ++i)
             free_item(tr_my_items[i]);
@@ -577,6 +580,8 @@ void transact() {
             transact();
             break;
           }
+
+          goto tr_after;
           break;
         }
         if (ch < 1) {
@@ -593,6 +598,7 @@ void transact() {
               add.amt, add.deposit.month, add.deposit.day, add.deposit.year);
     }
   }
+tr_after:
   fclose(old);
   fclose(newrec);
   remove("record.dat");
@@ -632,6 +638,155 @@ void transact() {
     } else {
       mvprintw(LINES - 2, 2, "Invalid");
       goto transact_invalid;
+    }
+  }
+}
+
+void edit() {
+  echo();
+  clear();
+  box(stdscr, 0, 0);
+  refresh();
+  FILE *old, *newrec;
+  int choice, test = 0;
+  old = fopen("record.dat", "r");
+  newrec = fopen("new.dat", "w");
+  mvprintw(2, 2, "Enter the account no. of the customer whose info you want to change:");
+  scanw("%d", &upd.acc_no);
+  noecho();
+
+  while (fscanf(old, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d", &add.acc_no,
+                add.name, &add.dob.month, &add.dob.day, &add.dob.year, &add.age,
+                add.address, add.citizenship, &add.phone, add.acc_type,
+                &add.amt, &add.deposit.month, &add.deposit.day,
+                &add.deposit.year) != EOF) {
+    if (add.acc_no == upd.acc_no) {
+      test = 1;
+
+      clear();
+      box(stdscr, 0, 0);
+      refresh();
+      char *ed_choices[] = {"Address", "Phone number", "Exit"};
+
+      ITEM **tr_my_items;
+      MENU *tr_my_menu;
+      ITEM *tr_cur_item;
+      int n_choices, c;
+      keypad(stdscr, TRUE);
+      int ch = 1, i;
+      n_choices = ARRAY_SIZE(ed_choices);
+      tr_my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+      for (i = 0; i < n_choices; i++)
+        tr_my_items[i] = new_item(ed_choices[i], " ");
+      tr_my_items[n_choices] = (ITEM *)NULL;
+
+      tr_my_menu = new_menu((ITEM **)tr_my_items);
+      mvprintw(LINES - 3, 2, "UP/DOWN arrow key to navigate");
+      mvprintw(LINES - 2, 2, "Enter to select menu.");
+      post_menu(tr_my_menu);
+      refresh();
+      while ((c = getch())) {
+        switch (c) {
+        case KEY_DOWN:
+          menu_driver(tr_my_menu, REQ_DOWN_ITEM);
+          ch++;
+          break;
+        case KEY_UP:
+          menu_driver(tr_my_menu, REQ_UP_ITEM);
+          ch--;
+          break;
+
+        case 10: /* Enter */
+                 //    item_name(current_item(my_menu)), ch);
+
+          unpost_menu(tr_my_menu);
+          for (i = 0; i < n_choices; ++i)
+            free_item(tr_my_items[i]);
+          free_menu(tr_my_menu);
+          echo();
+          switch (ch) {
+          case 1:
+            mvprintw(3, 2, "Enter new address: ");
+            scanw("%s", upd.address);
+            fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
+                    add.acc_no, add.name, add.dob.month, add.dob.day,
+                    add.dob.year, add.age, upd.address, add.citizenship,
+                    add.phone, add.acc_type, add.amt, add.deposit.month,
+                    add.deposit.day, add.deposit.year);
+            mvprintw(5, 2, "Changes Saved!");
+            break;
+          case 2:
+            mvprintw(3, 2, "Enter the new phone number: ");
+            scanw("%lf", &upd.phone);
+            fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
+                    add.acc_no, add.name, add.dob.month, add.dob.day,
+                    add.dob.year, add.age, add.address, add.citizenship,
+                    upd.phone, add.acc_type, add.amt, add.deposit.month,
+                    add.deposit.day, add.deposit.year);
+            mvprintw(5, 2, "Changes saved!");
+            break;
+          case 3:
+            edit();
+            break;
+          }
+
+          goto ed_after;
+          break;
+        }
+        if (ch < 1) {
+          ch = 1;
+        } else if (ch > 3) {
+          ch = 3;
+        }
+      }
+
+    } else
+      fprintf(newrec, "%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",
+              add.acc_no, add.name, add.dob.month, add.dob.day, add.dob.year,
+              add.age, add.address, add.citizenship, add.phone, add.acc_type,
+              add.amt, add.deposit.month, add.deposit.day, add.deposit.year);
+  }
+ed_after:
+  fclose(old);
+  fclose(newrec);
+  remove("record.dat");
+  rename("new.dat", "record.dat");
+
+  if (test != 1) {
+    clear();
+    refresh();
+    box(stdscr, 0, 0);
+    mvprintw(3, 2, "No record found");
+  edit_invalid:
+    mvprintw(LINES - 3, 2, "Enter r to retry,y to main menu and n to exit:");
+    exitcode = getch();
+    if (exitcode == 'y' || exitcode == 'y') {
+      clear();
+      menu();
+    } else if (exitcode == 'N' || exitcode == 'n') {
+      clear();
+      refresh();
+      exit(1);
+    } else if (exitcode == 'R' || exitcode == 'r') {
+      edit();
+    } else {
+      mvprintw(LINES - 2, 2, "Invalid");
+      goto edit_invalid;
+    }
+  } else {
+    box(stdscr, 0, 0);
+    mvprintw(LINES - 3, 2, "Enter y to main menu and n to exit:");
+    exitcode = getch();
+    if (exitcode == 'Y' || exitcode == 'y') {
+      clear();
+      menu();
+    } else if (exitcode == 'N' || exitcode == 'n') {
+      clear();
+      refresh();
+      exit(1);
+    } else {
+      mvprintw(LINES - 2, 2, "Invalid");
+      goto edit_invalid;
     }
   }
 }

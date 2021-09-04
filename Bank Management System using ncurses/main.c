@@ -1,6 +1,5 @@
 #include <menu.h>
 #include <ncurses.h> /* ncurses.h includes stdio.h */
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -60,10 +59,7 @@ int main() {
   mvprintw((row / 2) - 2, (col - strlen(mesg)) / 2, "%s", "Password: ");
   attroff(COLOR_PAIR(2));
   box(stdscr, 0, 0);
-  /*mvprintw(row - 2, 0, "This screen has %d rows and %d columns\n", row, col);
-  printw("Try resizing your window(if possible) and then run this program "
-         "again");
-    */
+
   getstr(pass);
   clear();
   if (strcmp(pass, password) == 0) {
@@ -129,8 +125,7 @@ void menu() {
       menu_driver(my_menu, REQ_UP_ITEM);
       ch--;
       break;
-    case 10: /* Enter */
-             //    item_name(current_item(my_menu)), ch);
+    case 10: 
       unpost_menu(my_menu);
       for (i = 0; i < n_choices; ++i)
         free_item(my_items[i]);
@@ -165,12 +160,7 @@ void menu() {
       ch = 7;
     }
   }
-  /*for (i = 0; i < n_choices; i++) {
-    printw("b: %d ", i);
-    getch();
-    free_item(my_items[i]);
-    printw("c: %d\n", i);
-  }*/
+
 }
 
 void new_acc() {
